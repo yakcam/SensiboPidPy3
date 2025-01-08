@@ -1,4 +1,4 @@
-from decimal import Decimal
+import logging
 import sys
 
 from SensiboApiClient import SensiboApiClient
@@ -12,20 +12,22 @@ def gather_configuration():
 
 def main():
     # Read and check config
-    print("Reading configuration...")
+    logging.info("Reading configuration...")
     config = gather_configuration()
-    print(config)
+    logging.debug(config)
     if config.error != 0:
         print("Error in configuration")
         return config.error
-    
+    logging.info("Configuration is valid")
+
     # Sensibo API
     sensibo = SensiboApiClient(config.api_token)
     device = sensibo.get_device(config.device_id)
-    print(device)
+    logging.info("The temperature at %s is %s", device['result']['measurements']['time']['time'], device['result']['measurements']['temperature'])
 
     return 0
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
     EXITCODE = main()
     sys.exit(EXITCODE)
