@@ -6,8 +6,8 @@ class Configuration:
     def __init__(self):
         self.api_token = ""
         self.device_id = ""
-        self.target_temperature = Decimal(0)
-        self.gain = Decimal(0)
+        self.target_temperature = float(0)
+        self.gain = float(0)
         self.error = 0
 
     def read_configuration_from_environment(self):
@@ -15,10 +15,10 @@ class Configuration:
         self.device_id = os.environ.get("SENSIBO_DEVICE_ID")
         target_temp_string = os.environ.get("TARGET_TEMPERATURE")
         if target_temp_string is not None:
-            self.target_temperature = Decimal(target_temp_string)
+            self.target_temperature = float(target_temp_string)
         gain_string = os.environ.get("GAIN")
         if gain_string is not None:
-            self.gain = Decimal(gain_string)
+            self.gain = float(gain_string)
 
     def check_configuration(self):
         if self.api_token is None or self.api_token == "" or len(self.api_token) < 10:
